@@ -1,0 +1,83 @@
+Zad.1
+
+1.
+CREATE TABLE postac (
+id_postaci INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+nazwa VARCHAR(40),
+rodzaj ENUM('wiking', 'ptak', 'kobieta'),
+data_ur DATE,
+wiek INT UNSIGNED
+);
+
+2.
+ insert into postac (nazwa, rodzaj, data_ur, wiek) values ( 'Bjorn','wiking','997-01-04','35');
+ insert into postac (nazwa, rodzaj, data_ur, wiek) values ( 'Drozd','ptak','2021-11-01','1');
+ insert into postac (nazwa, rodzaj, data_ur, wiek) values ( 'Tesciowa','kobieta','1965-01-15','57');
+
+
+ update postac set wiek=88 where nazwa like 'Tesciowa';
+
+Zad. 2
+
+CREATE table walizka ( id_walizki INT PRIMARY KEY AUTO_INCREMENT, pojemnosc INT UNSIGNED, kolor ENUM('rozowy','czerwony','teczowy','zolty'), id_wlasciciela INT REFERENCES postac (id_postaci) ON DELETE CASCADE);
+
+ALTER TABLE walizka ALTER kolor SET DEFAULT 'rozowy';
+
+INSERT INTO walizka(pojemnosc,kolor,id_wlasciciela) VALUES ('20','czerwony','1');
+INSERT INTO walizka(pojemnosc,kolor,id_wlasciciela) VALUES ('18','','3');
+
+Zad. 3
+**CREATE TABLE izba (
+adres_budynku varchar(30),
+nazwa_izby varchar(30),
+metraz int unsigned,
+wlasciciel int FOREIGN KEY ON DELETE SET NULL
+);
+
+**ALTER TABLE izba ADD kolor SET DEFAULT 'czarny' AFTER metraz;
+
+Zad. 4
+
+CREATE TABLE przetwory (
+    id_przetworu int PRIMARY KEY AUTO_INCREMENT,
+    rok_produkcji int DEFAULT '1654',
+    id_wykonawcy INT REFERENCES postac (id_postaci),
+    zawartosc varchar(30),
+    dodatek varchar(30) DEFAULT 'papryczka chilli',
+    id_konsumenta INT REFERENCES postac (id_postaci)
+);
+
+INSERT INTO przetwory (zawartosc) VALUES ('bigos z papryczka chilli');
+
+Zad. 5
+
+ insert into postac (nazwa, rodzaj, data_ur, wiek) values ( 'Halbjorn','wiking','1112-01-04','46');
+ insert into postac (nazwa, rodzaj, data_ur, wiek) values ( 'Harald','wiking','1234-01-04','34');
+ insert into postac (nazwa, rodzaj, data_ur, wiek) values ( 'Udalryk','wiking','1427-01-04','65');
+ insert into postac (nazwa, rodzaj, data_ur, wiek) values ( 'Lugos','wiking','1657-01-04','25');
+ insert into postac (nazwa, rodzaj, data_ur, wiek) values ( 'Krach','wiking','1597-01-04','55');
+
+
+CREATE TABLE statek (
+    nazwa_statku varchar(30) PRIMARY KEY,
+    rodzaj_statku enum('duzy','maly'),
+    data_wodowania date,
+    max_ladownosc int unsigned
+    );
+
+INSERT INTO statek (nazwa_statku, rodzaj_statku,data_wodowania,max_ladownosc ) VALUES ('Drakar1','duzy','1650-05-13','20000');
+INSERT INTO statek (nazwa_statku, rodzaj_statku,data_wodowania,max_ladownosc ) VALUES ('Drakar2','maly','1661-10-23','12000');
+
+ALTER TABLE postac ADD funkcja varchar(20) AFTER nazwa;
+
+UPDATE postac SET funkcja='kapitan' WHERE nazwa='Bjorn';
+
+ALTER TABLE postac ADD id_statek INT REFERENCES statek (nazwa_statku);
+
+UPDATE postac SET id_statek=1 WHERE id_postaci =1 OR id_postaci =2 OR id_postaci =4 OR id_postaci =5;
+UPDATE postac SET id_statek=2 WHERE id_postaci >5;
+
+DROP spizarnia from izba;
+DROP TABLE izba;
+
+
