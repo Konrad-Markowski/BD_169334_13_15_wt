@@ -1,0 +1,59 @@
+1.
+
+DELETE FROM postac WHERE nazwa = 'Udalryk';
+DELETE FROM postac WHERE nazwa = 'Krach';
+
+ALTER TABLE postac MODIFY id_postaci INT NOT NULL;
+ALTER TABLE postac DROP PRIMARY KEY;
+
+2.
+ALTER TABLE postac ADD pesel VARCHAR(11) NOT NULL;
+
+update postac set pesel='11111111111' where id_postaci=1;
+update postac set pesel='22222222222' where id_postaci=2;
+update postac set pesel='33333333333' where id_postaci=3;
+update postac set pesel='44444444444' where id_postaci=4;
+update postac set pesel='55555555555' where id_postaci=5;
+update postac set pesel='77777777777' where id_postaci=7;
+
+
+ALTER TABLE postac MODIFY pesel VARCHAR(11) NOT NULL PRIMARY KEY;
+ALTER TABLE postac MODIFY rodzaj ENUM ('wiking','ptak','kobieta','syrena');
+INSERT INTO postac (id_postaci, nazwa, rodzaj,funkcja, pesel ) VALUES (9,"Gertruda_Nieszczera",'syrena', '', '12312312312' );
+
+3.
+UPDATE postac SET id_statek=1 WHERE nazwa LIKE '%a%';
+UPDATE statek SET max_ladownosc = max_ladownosc * 0.7 where data_wodowania >= '1901-01-01' or data_wodowania <='2000-12-31';
+*************
+
+4.
+INSERT INTO postac (nazwa,rodzaj) VALUES ('Loko','smok') ;
+
+CREATE TABLE Marynarze (
+id_postaci INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+nazwa VARCHAR(40),
+funkcja VARCHAR(25),
+rodzaj ENUM('wiking', 'ptak', 'kobieta'),
+data_ur DATE,
+wiek INT UNSIGNED,
+id_statek INT,
+pesel VARCHAR(11) NOT NULL 
+);
+
+5.
+UPDATE postac SET id_statek=NULL;
+DELETE FROM postac WHERE nazwa LIKE 'Lugos';
+DELETE FROM statek;
+DROP TABLE statek;
+
+CREATE TABLE zwierz(
+id int PRIMARY KEY NOT NULL AUTO_INCREMENT,
+nazwa varchar(30),
+wiek int unsigned
+);
+
+INSERT INTO zwierz
+SELECT id_postaci, nazwa, wiek  FROM postac
+WHERE rodzaj LIKE 'ptak';
+
+
